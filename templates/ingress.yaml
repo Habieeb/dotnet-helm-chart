@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "counterapi.fullname" . }}
+  labels:
+    {{- include "counterapi.labels" . | nindent 4 }}
+  annotations:
+    {{- toYaml .Values.ingress.annotations | nindent 8 }}
+spec:
+  rules:
+    {{- range .Values.ingress.hosts }}
+    - host: {{ .host }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ . }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "counterapi.fullname" $ }}
+                port:
+                  number: 80
+          {{- end }}
+    {{- end }}
+
