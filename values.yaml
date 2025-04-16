@@ -1,0 +1,24 @@
+replicaCount: 2
+
+image:
+  repository: habeeb24/counterapi
+  pullPolicy: IfNotPresent
+  tag: latest
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: NodePort
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+  hosts:
+    - host: counterapi.local
+      paths:
+        - /
+
+resources: {}
+
